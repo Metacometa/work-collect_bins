@@ -30,7 +30,7 @@ def copy_in_cache(cache_path, batches, logs):
             for source in sources:
                 source_src_path = source['src_path']
                 source_dest_subpath = source['dest_subpath']
-                source_dest_subpath = os.path.join(cache_path, dest_subpath)
+                source_dest_subpath = os.path.join(cache_path, source_dest_subpath)
 
                 filenames = source.get('filenames', []).copy()
 
