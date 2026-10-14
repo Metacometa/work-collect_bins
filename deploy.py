@@ -1,6 +1,7 @@
 from datetime import datetime, timezone
 import os
 import json
+import glob
 from pathlib import Path
 import shutil
 import traceback
@@ -45,7 +46,7 @@ def copy_in_cache(cache_path, batches, logs):
                 
                 for filename in filenames:
                     copy_item(source_src_path, source_dest_subpath, item_type, filename, logs=logs)
-                    
+
         elif item_type == 'latest_file':            
             dest_path = os.path.join(cache_path, dest_subpath)
             
