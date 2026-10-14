@@ -30,10 +30,22 @@ def copy_in_cache(cache_path, batches, logs):
                 source_src_path = source['src_path']
                 source_dest_subpath = source['dest_subpath']
                 source_dest_subpath = os.path.join(cache_path, dest_subpath)
+
+                filenames = source.get('filenames', []).copy()
+
+                if 'filename_filter' in source:
+                    filenames.extend([
+                        os.path.basename(path)
+                        for path in glob.glob(
+                            os.path.join(source_src_path, source['filename_filter'])
+                        )
+                    ])
+
+                filenames = list(dict.fromkeys(filenames))
                 
-                filenames = source['filenames']
                 for filename in filenames:
                     copy_item(source_src_path, source_dest_subpath, item_type, filename, logs=logs)
+                    
         elif item_type == 'latest_file':            
             dest_path = os.path.join(cache_path, dest_subpath)
             
@@ -59,7 +71,6 @@ def copy_in_cache(cache_path, batches, logs):
                 ensure_ascii=False,
             )
             f.write("\n")
-
 
 def print_logs(logs, traceback_flag=False):
     width = 60
